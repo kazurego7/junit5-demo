@@ -4,11 +4,13 @@ import java.util.regex.Pattern;
 import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import kazurego7.junit5demo.domain.value.UserType;
 import lombok.Data;
 
 @Entity
 @Data
+@Table(schema = "demo", name = "demo_user")
 public class UserEntity {
   @Id
   private String userId;
