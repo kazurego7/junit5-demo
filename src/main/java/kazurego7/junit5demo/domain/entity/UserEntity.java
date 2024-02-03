@@ -40,7 +40,7 @@ public class UserEntity {
 
   public Boolean isValidMailAddress(String mailAddress) {
     var isValid = Pattern
-        .compile("^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\\\\.)+[a-zA-Z]{2,}$")
+        .compile("^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\\.)+[a-zA-Z]{2,}$")
         .matcher(mailAddress)
         .find();
     return isValid;
