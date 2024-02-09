@@ -1,12 +1,20 @@
 package kazurego7.junit5demo.controller;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotBlank;
 
 public record CreateUserRequestBody(
-                @NotEmpty(message = "userId is required")
-                String userId,
-                @NotEmpty(message = "userName is required")
-                String userName,
-                @NotEmpty(message = "mailAddress is required")
-                String mailAddress) {
+        @NotBlank(message = "userId is required")
+        @Max(value = 50, message = "userId is too long")
+        String userId,
+
+        @NotBlank(message = "userName is required")
+        @Max(value = 50, message = "userName is too long")
+        String userName,
+
+        @NotBlank(message = "mailAddress is required")
+        @Email(message = "mailAddress is invalid",
+                regexp = "^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\\\\.)+[a-zA-Z]{2,}$")
+        String mailAddress) {
 }
