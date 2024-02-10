@@ -37,7 +37,7 @@ userEntity.getUserType().equals("A") // ぬるぽ
 => `2. Enum と String を相互に変換する Converter を作る` で決定
 
 ### 実装例
-[kazurego7.junit5demo.domain.value.UserType](src\main\java\kazurego7\junit5demo\domain\value\UserType.java) を参照
+[kazurego7.junit5demo.domain.valueObject](src\main\java\kazurego7\junit5demo\domain\valueObject\UserType.java) を参照
 
 ### 利用例
 ```java
