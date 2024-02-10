@@ -1,13 +1,12 @@
 package kazurego7.junit5demo.controller.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import java.util.Set;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
-import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
@@ -16,6 +15,15 @@ public class CreateUserRequestBodyTest {
     private final Validator validator =
             Validation.buildDefaultValidatorFactory().getValidator();
 
+    private CreateUserRequestBody requestBody;
+
+    @BeforeEach
+    public void setUp() {
+        // テストに影響しない共通するデータを作成
+        requestBody = new CreateUserRequestBody("kazurego7", "numnum", "kazurego7@gmail.com");
+    }
+
+
     @Nested
     class ユーザーID {
         @ParameterizedTest
@@ -23,12 +31,10 @@ public class CreateUserRequestBodyTest {
         @ValueSource(strings = {" "})
         public void ユーザーIDが空の場合は_不正である(String userId) {
             // Arrange
-            CreateUserRequestBody requestBody =
-                    new CreateUserRequestBody(userId, "numnum", "kazurego7@gmail.com");
+            requestBody.setUserId(userId);
 
             // Act
-            Set<ConstraintViolation<CreateUserRequestBody>> violations =
-                    validator.validate(requestBody);
+            var violations = validator.validate(requestBody);
 
             // Assert
             assertThat(violations).hasSize(1);
@@ -38,13 +44,10 @@ public class CreateUserRequestBodyTest {
         @Test
         public void ユーザーIDが50文字以下は_正常である() {
             // Arrange
-            String userId = "a".repeat(50);
-            CreateUserRequestBody requestBody =
-                    new CreateUserRequestBody(userId, "numnum", "kazurego7@gmail.com");
+            requestBody.setUserId("a".repeat(50));
 
             // Act
-            Set<ConstraintViolation<CreateUserRequestBody>> violations =
-                    validator.validate(requestBody);
+            var violations = validator.validate(requestBody);
 
             // Assert
             assertThat(violations).hasSize(0);
@@ -53,13 +56,10 @@ public class CreateUserRequestBodyTest {
         @Test
         public void ユーザーIDが51文字以上は_不正である() {
             // Arrange
-            String userId = "a".repeat(51);
-            CreateUserRequestBody requestBody =
-                    new CreateUserRequestBody(userId, "numnum", "kazurego7@gmail.com");
+            requestBody.setUserId("a".repeat(51));
 
             // Act
-            Set<ConstraintViolation<CreateUserRequestBody>> violations =
-                    validator.validate(requestBody);
+            var violations = validator.validate(requestBody);
 
             // Assert
             assertThat(violations).hasSize(1);
@@ -74,13 +74,10 @@ public class CreateUserRequestBodyTest {
         @ValueSource(strings = {" "})
         public void ユーザー名が空の場合は_不正である(String userName) {
             // Arrange
-            CreateUserRequestBody requestBody =
-                    new CreateUserRequestBody("userId", userName,
-                            "kazurego7@gmail.com");
+            requestBody.setUserName(userName);
 
             // Act
-            Set<ConstraintViolation<CreateUserRequestBody>> violations =
-                    validator.validate(requestBody);
+            var violations = validator.validate(requestBody);
 
             // Assert
             assertThat(violations).hasSize(1);
@@ -91,13 +88,10 @@ public class CreateUserRequestBodyTest {
         @Test
         public void ユーザー名が50文字以下は_正常である() {
             // Arrange
-            String userName = "a".repeat(50);
-            CreateUserRequestBody requestBody =
-                    new CreateUserRequestBody("userId", userName, "kazurego7@gmail.com");
+            requestBody.setUserName("a".repeat(50));
 
             // Act
-            Set<ConstraintViolation<CreateUserRequestBody>> violations =
-                    validator.validate(requestBody);
+            var violations = validator.validate(requestBody);
 
             // Assert
             assertThat(violations).hasSize(0);
@@ -107,13 +101,10 @@ public class CreateUserRequestBodyTest {
         @Test
         public void ユーザー名が51文字以上は_不正である() {
             // Arrange
-            String userName = "a".repeat(51);
-            CreateUserRequestBody requestBody =
-                    new CreateUserRequestBody("userId", userName, "kazurego7@gmail.com");
+            requestBody.setUserName("a".repeat(51));
 
             // Act
-            Set<ConstraintViolation<CreateUserRequestBody>> violations =
-                    validator.validate(requestBody);
+            var violations = validator.validate(requestBody);
 
             // Assert
             assertThat(violations).hasSize(1);
@@ -127,12 +118,10 @@ public class CreateUserRequestBodyTest {
         @NullAndEmptySource
         public void メールアドレスが空の場合は_不正である(String mailAddress) {
             // Arrange
-            CreateUserRequestBody requestBody =
-                    new CreateUserRequestBody("userId", "numnum", mailAddress);
+            requestBody.setMailAddress(mailAddress);
 
             // Act
-            Set<ConstraintViolation<CreateUserRequestBody>> violations =
-                    validator.validate(requestBody);
+            var violations = validator.validate(requestBody);
 
             // Assert
             assertThat(violations).hasSize(1);
@@ -142,12 +131,10 @@ public class CreateUserRequestBodyTest {
         @Test
         public void メールアドレスが形式に沿っていない場合は_不正である() {
             // Arrange
-            CreateUserRequestBody requestBody =
-                    new CreateUserRequestBody("userId", "numnum", "invalid email");
+            requestBody.setMailAddress("kazurego7@");
 
             // Act
-            Set<ConstraintViolation<CreateUserRequestBody>> violations =
-                    validator.validate(requestBody);
+            var violations = validator.validate(requestBody);
 
             // Assert
             assertThat(violations).hasSize(1);
@@ -163,12 +150,10 @@ public class CreateUserRequestBodyTest {
         })
         public void メールアドレスがgmailの場合は_正常である(String mailAddress) {
             // Arrange
-            CreateUserRequestBody requestBody =
-                    new CreateUserRequestBody("userId", "numnum", mailAddress);
+            requestBody.setMailAddress(mailAddress);
 
             // Act
-            Set<ConstraintViolation<CreateUserRequestBody>> violations =
-                    validator.validate(requestBody);
+            var violations = validator.validate(requestBody);
 
             // Assert
             assertThat(violations).hasSize(0);
