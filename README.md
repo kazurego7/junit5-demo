@@ -64,9 +64,9 @@ userEntity.getUserType() == UserType.GENERAL // false
 
 1. `@SpringBootTest`と`@Autowired`によるDI
 2. `@SpringBootTest`でBean生成をバリデーション構成に絞る
-3. `jakarta.validation.Validator`をテスト実行時に直接定義
+3. `jakarta.validation.Validator`を直接定義
 
-**最速は「3.`jakarta.validation.Validator`をテスト実行時に直接定義」**
+**最速は「3.`jakarta.validation.Validator`を直接定義」**
 
 #### 1. `@SpringBootTest`と`@Autowired`によるDI
 ```java
