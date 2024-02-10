@@ -10,7 +10,6 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
-
 public class CreateUserRequestBodyTest {
 
         private final Validator validator =
@@ -19,7 +18,7 @@ public class CreateUserRequestBodyTest {
         @ParameterizedTest
         @NullAndEmptySource
         @ValueSource(strings = {" "})
-        public void userId_is_required(String userId) {
+        public void userIdが必須であること(String userId) {
                 // Arrange
                 CreateUserRequestBody requestBody =
                                 new CreateUserRequestBody(userId, "numnum", "kazurego7@gmail.com");
@@ -36,7 +35,7 @@ public class CreateUserRequestBodyTest {
         @ParameterizedTest
         @NullAndEmptySource
         @ValueSource(strings = {" "})
-        public void userName_is_required(String userName) {
+        public void userNameが必須であること(String userName) {
                 // Arrange
                 CreateUserRequestBody requestBody =
                                 new CreateUserRequestBody("userId", userName,
@@ -53,7 +52,7 @@ public class CreateUserRequestBodyTest {
 
         @ParameterizedTest
         @NullAndEmptySource
-        public void mailAddress_is_required(String mailAddress) {
+        public void mailAddressが必須であること(String mailAddress) {
                 // Arrange
                 CreateUserRequestBody requestBody =
                                 new CreateUserRequestBody("userId", "numnum", mailAddress);
@@ -68,7 +67,7 @@ public class CreateUserRequestBodyTest {
         }
 
         @Test
-        public void userId_is_too_long() {
+        public void userIdが50文字以下であること() {
                 // Arrange
                 String userId = "a".repeat(51);
                 CreateUserRequestBody requestBody =
@@ -84,7 +83,7 @@ public class CreateUserRequestBodyTest {
         }
 
         @Test
-        public void userName_is_too_long() {
+        public void userNameが50文字以下であること() {
                 // Arrange
                 String userName = "a".repeat(51);
                 CreateUserRequestBody requestBody =
@@ -100,10 +99,8 @@ public class CreateUserRequestBodyTest {
                 assertThat(violations).extracting("message").contains("userName is too long");
         }
 
-
-
         @Test
-        public void mailAddress_is_invalid() {
+        public void mailAddressがメールアドレス形式であること() {
                 // Arrange
                 CreateUserRequestBody requestBody =
                                 new CreateUserRequestBody("userId", "numnum", "invalid email");
