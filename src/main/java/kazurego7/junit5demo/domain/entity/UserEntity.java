@@ -3,7 +3,7 @@ package kazurego7.junit5demo.domain.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import kazurego7.junit5demo.domain.value.UserType;
+import kazurego7.junit5demo.domain.valueObject.UserType;
 import lombok.Data;
 
 @Entity

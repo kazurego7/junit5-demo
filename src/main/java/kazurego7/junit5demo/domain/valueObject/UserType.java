@@ -1,4 +1,4 @@
-package kazurego7.junit5demo.domain.value;
+package kazurego7.junit5demo.domain.valueObject;
 
 import jakarta.persistence.Converter;
 import kazurego7.junit5demo.utils.PersistableEnum;

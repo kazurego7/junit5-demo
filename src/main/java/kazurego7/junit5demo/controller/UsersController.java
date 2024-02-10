@@ -9,15 +9,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.constraints.NotNull;
+import kazurego7.junit5demo.controller.model.CreateUserRequestBody;
+import kazurego7.junit5demo.controller.model.GetUserResponse;
 import kazurego7.junit5demo.domain.entity.UserEntity;
-import kazurego7.junit5demo.domain.value.UserType;
-import kazurego7.junit5demo.repository.UserRepository;
+import kazurego7.junit5demo.domain.repository.UserRepository;
+import kazurego7.junit5demo.domain.valueObject.UserType;
 
 
 
 @RestController
 @RequestMapping("/users")
-public class Users {
+public class UsersController {
 
     @Autowired
     private UserRepository userRepository;

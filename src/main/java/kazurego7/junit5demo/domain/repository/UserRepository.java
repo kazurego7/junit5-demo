@@ -1,4 +1,4 @@
-package kazurego7.junit5demo.repository;
+package kazurego7.junit5demo.domain.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
