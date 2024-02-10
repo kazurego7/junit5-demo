@@ -95,7 +95,7 @@ public class CreateUserRequestBodyTest {
 [INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.302 s -- in kazurego7.junit5demo.controller.model.CreateUserRequestBodyTest
 ```
 
-#### 3. `jakarta.validation.Validator`をテスト実行時に直接定義
+#### 3. `jakarta.validation.Validator`を直接定義
 ```java
 public class CreateUserRequestBodyTest {
 
