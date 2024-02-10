@@ -1,10 +1,16 @@
+
 package kazurego7.junit5demo.controller.model;
 
-public record GetUserResponse(
-                String userId,
-                String userName,
-                String mailAddress,
-                String userType) {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class GetUserResponse {
+    private String userId;
+    private String userName;
+    private String mailAddress;
+    private String userType;
 }
-
-
