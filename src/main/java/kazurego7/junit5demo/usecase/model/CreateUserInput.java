@@ -1,4 +1,4 @@
-package kazurego7.junit5demo.controller.model;
+package kazurego7.junit5demo.usecase.model;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateUserRequestBody {
+public class CreateUserInput {
     @NotBlank(message = "userId is required")
     @Size(max = 50, message = "userId is too long")
     private String userId;

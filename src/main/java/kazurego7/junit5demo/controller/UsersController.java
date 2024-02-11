@@ -1,56 +1,47 @@
 package kazurego7.junit5demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import kazurego7.junit5demo.controller.model.CreateUserRequestBody;
-import kazurego7.junit5demo.controller.model.GetUserResponse;
-import kazurego7.junit5demo.domain.entity.UserEntity;
-import kazurego7.junit5demo.domain.repository.UserRepository;
-import kazurego7.junit5demo.domain.valueObject.UserType;
+import kazurego7.junit5demo.usecase.UserUsecase;
+import kazurego7.junit5demo.usecase.model.CreateUserInput;
+import kazurego7.junit5demo.usecase.model.GetUserOutput;
 
 @RestController
 @RequestMapping("/users")
 public class UsersController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserUsecase userUsecase;
 
     @PostMapping()
     public void createUser(
             @Valid
             @RequestBody
-            CreateUserRequestBody requestBody) {
-        var user = new UserEntity();
-        user.setUserId(requestBody.getUserId());
-        user.setUserName(requestBody.getUserName());
-        user.setMailAddress(requestBody.getMailAddress());
-        user.setUserType(UserType.GENERAL);
-        userRepository.save(user);
-        return;
+            CreateUserInput input) {
+        userUsecase.createUser(input);
     }
 
     @GetMapping("/{userId}")
-    public GetUserResponse getUser(
+    public GetUserOutput getUser(
             @Valid
             @PathVariable("userId")
             @NotNull
             String userId) {
-        var optionalUser = userRepository.findById(userId);
-        if (optionalUser.isEmpty()) {
-            return null;
-        }
-        var user = optionalUser.get();
-        var response =
-                new GetUserResponse(user.getUserId(), user.getUserName(), user.getMailAddress(),
-                        user.getUserType().getValue());
-        return response;
+
+        var response = userUsecase.getUser(userId);
+
+        // ユーザーが存在しない場合は 404 エラーを返す
+        return response.orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
 
 }

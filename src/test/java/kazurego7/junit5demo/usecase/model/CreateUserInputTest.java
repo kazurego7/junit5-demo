@@ -1,4 +1,4 @@
-package kazurego7.junit5demo.controller.model;
+package kazurego7.junit5demo.usecase.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,17 +10,17 @@ import org.junit.jupiter.params.provider.ValueSource;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
-public class CreateUserRequestBodyTest {
+public class CreateUserInputTest {
 
     private final Validator validator =
             Validation.buildDefaultValidatorFactory().getValidator();
 
-    private CreateUserRequestBody requestBody;
+    private CreateUserInput requestBody;
 
     @BeforeEach
     public void setUp() {
         // テストに影響しない共通するデータを作成
-        requestBody = new CreateUserRequestBody("kazurego7", "numnum", "kazurego7@gmail.com");
+        requestBody = new CreateUserInput("kazurego7", "numnum", "kazurego7@gmail.com");
     }
 
 

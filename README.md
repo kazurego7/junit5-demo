@@ -19,6 +19,10 @@ junit5の他に、いろいろ試したいことを詰め込んだリポジト�
 - [テストの命名](#テストの命名)
   - [アンチパターンと指針](#アンチパターンと指針)
   - [日本語を使うことの是非](#日本語を使うことの是非)
+- [Spring boot vs Domain Driven Develop vs クリーンアーキテクチャの名前を言ってはいけない図](#spring-boot-vs-domain-driven-develop-vs-クリーンアーキテクチャの名前を言ってはいけない図)
+  - [domain](#domain)
+  - [usecase](#usecase)
+  - [controller](#controller)
 
 
 ## 1. 定数値の永続化
@@ -166,3 +170,63 @@ Java はソースコードに日本語が使える(クラス名、メソッド�
 以下のような懸念点はクリア
 - `mvn test`コマンドでのテスト実行
 - STS4 での部分テスト実行
+
+## Spring boot vs Domain Driven Develop vs クリーンアーキテクチャの名前を言ってはいけない図
+
+別にどれもVSになってないけど……  
+クリーンアーキテクチャのあの図を下地として、DDDによるモデリングを実装に落とし込む際に齟齬が生まれないようにしたい  
+まず、パッケージの分類から
+
+### domain
+業務領域(domain)に関するデータと処理をまとめたものを配置
+
+- 業務上、不正となるデータの生成を防ぐ
+  - entity と valueObject により業務領域のデータを型で表現し、データに対する処理をカプセル化する
+- データの整合性を保つ
+  - entity や valueObject 間の関係と、同時に保存されるべきトランザクションの単位(=集約)を設計する
+  - 集約単位のデータの永続化を repository で表現する
+- 業務として共通する処理をまとめる
+  - entity や valueObject に属せない、業務として共通する処理を domainService に置く
+  - 業務に関係ないユーティリティ的な処理は 別パッケージの utils に置く
+
+- Tips
+  - IDを自動生成する仕様にしたいときは`@GeneratedValue(strategy = GenerationType.UUID)`を使う
+    - https://www.baeldung.com/java-hibernate-uuid-primary-key
+
+### usecase
+業務領域(domain)の一連の処理をまとめたものを配置
+
+- 処理の内容例
+  - 処理の入力と出力の仕様を定義する
+    - 入力と出力の定義は model に置く
+    - 入力バリデーションの仕様を`Jakarta Bean Validation`のアノテーションで記述する
+    - 入力バリデーションの実装は Spring boot が注入してくれる
+  - 業務領域の処理の流れを記述する
+  - 業務領域に関する entity や valueObject を、レスポンスのためのDTOに変換する
+
+- 共通する処理を usecase に置かないこと
+  - 業務として共通する処理の場合:
+    - 基本的には entity や valueObject に置く
+    - 複数の repository の保存を含んだり、複数の entity や valueObject で共通させる処理は domainService に置く
+  - 業務に関係ないユーティリティ的な処理の場合:
+    - utils に置く
+
+### controller
+HTTPリクエストを受け取り、usecase に橋渡しする処理を配置
+
+- 処理の内容
+  - HTTPリクエストと controller のメソッドへのマッピング
+    - `@RequestMapping` などに対して Spring boot が自動実装
+  - 入力バリデーションの実施
+    - `@Validated`, `@Valid` などに対して Spring boot が自動実装
+  - HTTPリクエスト文字列をユースケースの入力オブジェクトに変換
+    - `@RequestBody`, `@RequestParam` などに対して Spring boot が自動実装
+  - ユースケースの処理の実行
+  - ユースケースの戻り値をHTTPレスポンス文字列に変換
+    - `@Controller`, `@RestController` などに対して Spring boot が自動実装
+  - HTTPレスポンス文字列を返す
+    - `@Controller`, `@RestController` などに対して Spring boot が自動実装
+
+- ほとんど Spring boot の自動実装やんけ！！
+  - 実際にここに書くべき処理はほとんどない
+  - 共通化できる処理は共通化して common に配置
