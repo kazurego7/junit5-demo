@@ -22,4 +22,8 @@ public class CreateUserInput {
     @NotBlank(message = "mailAddress is required")
     @Email(message = "mailAddress is invalid")
     private String mailAddress;
+
+    @NotBlank(message = "companyId is required")
+    @Size(max = 50, message = "companyId is too long")
+    private String companyId;
 }

@@ -20,7 +20,8 @@ public class CreateUserInputTest {
     @BeforeEach
     public void setUp() {
         // テストに影響しない共通するデータを作成
-        requestBody = new CreateUserInput("kazurego7", "numnum", "kazurego7@gmail.com");
+        requestBody = new CreateUserInput("kazurego7", "numnum", "kazurego7@gmail.com",
+                "123e4567-e89b-12d3-a456-426614174000");
     }
 
 
