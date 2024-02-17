@@ -1,16 +1,17 @@
 
 package kazurego7.junit5demo.usecase.model;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Builder
 public class GetUserOutput {
     private String userId;
     private String userName;
     private String mailAddress;
     private String userType;
+    private String companyId;
+    private String companyName;
+    private String companyAddress;
 }

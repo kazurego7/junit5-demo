@@ -48,9 +48,16 @@ public class UserUsecase {
             return Optional.empty();
         }
         var user = optionalUser.get();
-        var response =
-                new GetUserOutput(user.getUserId(), user.getUserName(), user.getMailAddress(),
-                        user.getUserType().getValue());
+        var company = user.getCompany();
+        var response = GetUserOutput.builder()
+                .userId(user.getUserId())
+                .userName(user.getUserName())
+                .mailAddress(user.getMailAddress())
+                .userType(user.getUserType().getValue())
+                .companyId(company.getCompanyId())
+                .companyName(company.getCompanyName())
+                .companyAddress(company.getAddress())
+                .build();
         return Optional.of(response);
     }
 }

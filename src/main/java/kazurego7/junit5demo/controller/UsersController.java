@@ -27,6 +27,12 @@ public class UsersController {
     @Autowired
     private UserUsecase userUsecase;
 
+    /**
+     * ユーザー登録
+     * 
+     * @param input
+     * @return
+     */
     @PostMapping()
     public ResponseEntity<CreateUserOutput> createUser(
             @Valid
@@ -41,6 +47,12 @@ public class UsersController {
         return response;
     }
 
+    /**
+     * ユーザー詳細取得
+     * 
+     * @param userId
+     * @return
+     */
     @GetMapping("/{userId}")
     public GetUserOutput getUser(
             @Valid
