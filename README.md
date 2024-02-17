@@ -23,7 +23,8 @@ junit5の他に、いろいろ試したいことを詰め込んだリポジト�
   - [domain](#domain)
   - [usecase](#usecase)
   - [controller](#controller)
-  - [単体テストと統合テストの範囲](#単体テストと統合テストの範囲)
+- [テスト分類の定義](#テスト分類の定義)
+- [分類ごとのテスト実施の分離](#分類ごとのテスト実施の分離)
 
 
 ## 1. 定数値の永続化
@@ -176,6 +177,11 @@ Java はソースコードに日本語が使える(クラス名、メソッド�
 
 別にどれもVSになってないけど……  
 クリーンアーキテクチャのあの図を下地として、DDDによるモデリングを実装に落とし込む際に齟齬が生まれないようにしたい  
+
+![クリーンアーキテクチャ_名前を言ってはいけないあの図](/doc/クリーンアーキテクチャ_名前を言ってはいけないあの図.jpg)
+![クリーンアーキテクチャ_クラス図](/doc/クリーンアーキテクチャ_クラス図.png)
+
+
 まず、パッケージの分類から
 
 ### domain
@@ -236,7 +242,16 @@ HTTPリクエストを受け取り、usecase に橋渡しする処理を配置
   - 共通化できる処理は共通化して common に配置
 
 
-### 単体テストと統合テストの範囲
+## テスト分類の定義
+
+- 単体テストと統合テストの分類に、明確な定義を与える
+  - Google の提唱する [Test Sizes](https://testing.googleblog.com/2010/12/test-sizes.html) による定義
+  - Small: 単体テスト(Unit Test)
+  - Mediam: 統合テスト(Integration Test)
+  - Large: E2Eテスト、システムテスト(E2E Test, System Test)
+
+![テストサイズ](/doc/テストサイズ.png)
+
 
 おおまかに分類する
 
@@ -250,3 +265,19 @@ HTTPリクエストを受け取り、usecase に橋渡しする処理を配置
     - 入力バリデーションの実施とレスポンス
     - DBへの更新処理
     - トランザクション処理
+
+参考1: [変更容易性と理解容易性を支える自動テスト（2024/02版）](https://speakerdeck.com/twada/automated-test-knowledge-from-savanna-202402-yapc-hiroshima-edition?slide=18)
+
+
+## 分類ごとのテスト実施の分離
+
+- 単体テスト: 迅速なフィードバック(=テスト実施速度)が重要
+  - ローカルでビルドのたびに動かしたい
+- 統合テスト: 退行(regression)に対する保護が重要
+  - リモートリポジトリへのpushのたびに、CIサーバーで動かしたい
+
+- maven のビルドライフサイクル上では、単体テストと統合テストが明確に分離されている
+  - maven のプラグインでテストの実行を分離させたい
+  - `Failsafe Plugin`
+
+参考1: [Running Unit and Integration Test Separately in Maven](https://medium.com/@vandernobrel/running-unit-and-integration-test-separately-in-maven-a3e82d25cb7d)
