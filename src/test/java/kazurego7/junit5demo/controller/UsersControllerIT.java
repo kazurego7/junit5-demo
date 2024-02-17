@@ -18,7 +18,7 @@ import kazurego7.junit5demo.domain.repository.UserRepository;
 import kazurego7.junit5demo.domain.valueObject.UserType;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class UsersControllerTest {
+public class UsersControllerIT {
 
     @LocalServerPort
     private int port;
